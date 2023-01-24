@@ -33,4 +33,5 @@ jobs:
       - run: echo "github.event.repository.default_branch=(${{ github.event.repository.default_branch }})"
       - run: git branch -a
       - run: git diff --name-status remotes/origin/main...remotes/origin/test/branch-2
+      - run: git diff --name-status origin/main origin/${GITHUB_HEAD_REF}
 
