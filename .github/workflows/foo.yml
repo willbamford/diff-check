@@ -21,7 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - run: echo "GITHUB_REF=($GITHUB_REF)"
+      - run: echo "github.head_ref=(${{ github.head_ref }})"
+      - run: echo "GITHUB_REF_NAME=($GITHUB_REF_NAME)"
       - run: echo "github.ref_name=(${{ github.ref_name }})"
       - run: echo "github.event.repository.default_branch=(${{ github.event.repository.default_branch }})"
 
