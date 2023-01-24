@@ -26,5 +26,8 @@ jobs:
       - run: echo "github.ref=(${{ github.ref }})"
       - run: echo "GITHUB_REF_NAME=($GITHUB_REF_NAME)"
       - run: echo "github.ref_name=(${{ github.ref_name }})"
+      - run: echo "github.event.action=(${{ github.event.action }})"
+      - run: echo "github.event=(${{ github.event }})"
       - run: echo "github.event.repository.default_branch=(${{ github.event.repository.default_branch }})"
+      - run: git diff --name-status NOTICKET/test-diff master >> result
 
