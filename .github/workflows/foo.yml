@@ -1,0 +1,21 @@
+name: Foo
+
+on:
+  workflow_dispatch: # manual trigger
+  pull_request:
+    branches:
+      - master
+
+# permissions:
+#   contents: write
+#   id-token: write
+#   packages: read
+#   pull-requests: read
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: echo "Hello"
