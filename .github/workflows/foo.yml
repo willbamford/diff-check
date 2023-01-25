@@ -36,6 +36,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ needs.changes.outputs.changes }}
-      - run: echo ${{ needs.changes.outputs.changes.changed }}
-      - run: echo ${{ needs.changes.outputs.changes.changed_files }}
-      - run: echo ${{ needs.changes.outputs.changes.changed_count }}
+      - run: echo ${{ needs.changes.outputs.changed }}
+      - run: echo ${{ needs.changes.outputs.changed_files }}
+      - run: echo ${{ needs.changes.outputs.changed_count }}
