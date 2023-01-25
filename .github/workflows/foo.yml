@@ -16,7 +16,7 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      changed: ${{ steps.changes.outputs.changed }}
+      changes: ${{ steps.changes.outputs.changes }}
     steps:
       - uses: actions/checkout@v3
         # This may save additional git fetch roundtrip if
@@ -33,24 +33,22 @@ jobs:
             changed:
               - '**'
 
-      - if: ${{ steps.changes.outputs.changed == 'true' }}
-        run: for i in ${{ steps.changes.outputs.changed_files }}; do echo $i | awk ; done
-
   foo:
     needs: [changes]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
+      # - uses: actions/checkout@v3
+      #   with:
+      #     fetch-depth: 2
 
-      - run: echo ${{ needs.changes.outputs.changed }}
-      - run: echo ${{ needs.changes.outputs.changed_count }}
-      - run: echo ${{ needs.changes.outputs.changed_files }}
+      - run: echo ${{ fromJSON(needs.changes.outputs.changes) }}
+      - run: echo ${{ needs.changes.outputs.changes }}
+      # - run: echo ${{ needs.changes.outputs.changed_count }}
+      # - run: echo ${{ needs.changes.outputs.changed_files }}
 
-  bar:
-    needs: [changes]
-    runs-on: ubuntu-latest
-    if: ${{ needs.changes.outputs.changed == 'true' }}
-    steps:
-      - run: for i in ${{ needs.changes.outputs.changed_files }}; do echo $i | awk ; done
+  # bar:
+  #   needs: [changes]
+  #   runs-on: ubuntu-latest
+  #   if: ${{ needs.changes.outputs.changed == 'true' }}
+  #   steps:
+  #     - run: for i in ${{ needs.changes.outputs.changed_files }}; do echo $i | awk ; done
