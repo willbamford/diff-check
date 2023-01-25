@@ -33,6 +33,15 @@ jobs:
             changed:
               - '**'
 
+  hack:
+    needs: [changes]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            console.log(JSON.stringify(context, null, 2))
+
   foo:
     needs: [changes]
     runs-on: ubuntu-latest
