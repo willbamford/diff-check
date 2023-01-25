@@ -27,11 +27,21 @@ jobs:
       - uses: dorny/paths-filter@v2
         id: changes
         with:
-          # list-files: json
           list-files: json
           filters: |
             changed:
               - '**'
+
+  chk:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - id: foo
+      uses: willbamford/monorepo-changed@v1
+      with:
+        who-to-greet: 'Mona the Octocat'
+    - run: echo random-number ${{ steps.foo.outputs.random-number }}
+      shell: bash
 
   show:
     needs: [changes]
@@ -40,3 +50,9 @@ jobs:
       - run: echo ${{ needs.changes.outputs.changes }}
       - run: echo ${{ needs.changes.outputs.changed_files }}
       - run: echo ${{ needs.changes.outputs.changed_count }}
+
+
+# Creating a custom GH action to find changes packages in the monorepo
+# Meeting with Explore later / Mark Evans
+
+
