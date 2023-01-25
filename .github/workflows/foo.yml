@@ -39,8 +39,12 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         with:
+          t: ${{ needs.changes.outputs.changes }}
           script: |
+            const t = core.getInput('t', { required: true });
+            console.log('t', t)
             console.log(JSON.stringify(context, null, 2))
+            console.log(JSON.stringify(github, null, 2))
 
   foo:
     needs: [changes]
