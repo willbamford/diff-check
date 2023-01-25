@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       changes: ${{ steps.changes.outputs.changes }}
+      changed_files: ${{ steps.changes.outputs.changed_files }}
+      changed_count: ${{ steps.changes.outputs.changed_count }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -36,6 +38,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ needs.changes.outputs.changes }}
-      - run: echo ${{ needs.changes.outputs.changed }}
       - run: echo ${{ needs.changes.outputs.changed_files }}
       - run: echo ${{ needs.changes.outputs.changed_count }}
