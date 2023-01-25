@@ -13,20 +13,6 @@ permissions:
   pull-requests: read
 
 jobs:
-  changes:
-    runs-on: ubuntu-latest
-    outputs:
-      changes: ${{ steps.changes.outputs.changes }}
-      changed_files: ${{ steps.changes.outputs.changed_files }}
-      changed_count: ${{ steps.changes.outputs.changed_count }}
-    steps:
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          list-files: json
-          filters: |
-            changed:
-              - '**'
 
   chk:
     runs-on: ubuntu-latest
@@ -34,22 +20,8 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 20
-    - uses: willbamford/monorepo-changed@v2
+    - uses: willbamford/monorepo-changed@v4
       with:
         who-to-greet: 'Mona the Octocat'
     - run: echo random-number ${{ steps.foo.outputs.random-number }}
       shell: bash
-
-  show:
-    needs: [changes]
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ needs.changes.outputs.changes }}
-      - run: echo ${{ needs.changes.outputs.changed_files }}
-      - run: echo ${{ needs.changes.outputs.changed_count }}
-
-
-# Creating a custom GH action to find changes packages in the monorepo
-# Meeting with Explore later / Mark Evans
-
-
