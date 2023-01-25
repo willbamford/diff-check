@@ -33,6 +33,9 @@ jobs:
             changed:
               - '**'
 
+      - if: ${{ steps.filter.outputs.changed == 'true' }}
+        run: for i in ${{ steps.filter.outputs.changed_files }}; do echo $i | awk ; done
+
   foo:
     needs: [changes]
     runs-on: ubuntu-latest
@@ -45,4 +48,9 @@ jobs:
       - run: echo ${{ needs.changes.outputs.changed_count }}
       - run: echo ${{ needs.changes.outputs.changed_files }}
 
-
+  bar:
+    needs: [changes]
+    runs-on: ubuntu-latest
+    if: ${{ steps.filter.outputs.changed == 'true' }}
+    steps:
+      - run: for i in ${{ steps.filter.outputs.changed_files }}; do echo $i | awk ; done
