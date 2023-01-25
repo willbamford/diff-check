@@ -19,14 +19,19 @@ jobs:
       changed: ${{ steps.changes.outputs.changed }}
     steps:
       - uses: actions/checkout@v3
+        # This may save additional git fetch roundtrip if
+        # merge-base is found within latest 20 commits
+        with:
+          fetch-depth: 20
 
       - uses: dorny/paths-filter@v2
         id: changes
         with:
-          list-files: json
+          # list-files: json
+          list-files: shell
           filters: |
             changed:
-              - '**/*.*'
+              - '**'
 
   foo:
     needs: [changes]
