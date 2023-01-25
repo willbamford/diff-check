@@ -33,8 +33,8 @@ jobs:
             changed:
               - '**'
 
-      - if: ${{ steps.filter.outputs.changed == 'true' }}
-        run: for i in ${{ steps.filter.outputs.changed_files }}; do echo $i | awk ; done
+      - if: ${{ steps.changes.outputs.changed == 'true' }}
+        run: for i in ${{ steps.changes.outputs.changed_files }}; do echo $i | awk ; done
 
   foo:
     needs: [changes]
