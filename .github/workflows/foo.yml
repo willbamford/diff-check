@@ -28,7 +28,7 @@ jobs:
         id: changes
         with:
           # list-files: json
-          list-files: shell
+          list-files: json
           filters: |
             changed:
               - '**'
@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         with:
-          t: ${{ needs.changes.outputs.changes }}
+          t: ${{ needs.changes.outputs.changed_files }}
           script: |
             const t = core.getInput('t', { required: true });
             console.log('t', t)
