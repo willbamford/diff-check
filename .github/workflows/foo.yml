@@ -26,7 +26,7 @@ jobs:
         id: changes
         with:
           # list-files: json
-          # list-files: json
+          list-files: json
           filters: |
             changed:
               - '**'
@@ -36,3 +36,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ needs.changes.outputs.changes }}
+      - run: echo ${{ needs.changes.outputs.changes.changed }}
+      - run: echo ${{ needs.changes.outputs.changes.changed_files }}
+      - run: echo ${{ needs.changes.outputs.changes.changed_count }}
