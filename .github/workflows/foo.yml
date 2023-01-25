@@ -51,6 +51,6 @@ jobs:
   bar:
     needs: [changes]
     runs-on: ubuntu-latest
-    if: ${{ steps.filter.outputs.changed == 'true' }}
+    if: ${{ needs.changes.outputs.changed == 'true' }}
     steps:
-      - run: for i in ${{ steps.filter.outputs.changed_files }}; do echo $i | awk ; done
+      - run: for i in ${{ needs.changes.outputs.changed_files }}; do echo $i | awk ; done
