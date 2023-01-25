@@ -19,8 +19,6 @@ jobs:
       changes: ${{ steps.changes.outputs.changes }}
     steps:
       - uses: actions/checkout@v3
-        # This may save additional git fetch roundtrip if
-        # merge-base is found within latest 20 commits
         with:
           fetch-depth: 20
 
@@ -28,40 +26,13 @@ jobs:
         id: changes
         with:
           # list-files: json
-          list-files: json
+          # list-files: json
           filters: |
             changed:
               - '**'
 
-  hack:
+  show:
     needs: [changes]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
-        with:
-          t: ${{ needs.changes.outputs.changed_files }}
-          script: |
-            const t = core.getInput('t', { required: true });
-            console.log('t', t)
-            console.log(JSON.stringify(context, null, 2))
-            console.log(JSON.stringify(github, null, 2))
-
-  foo:
-    needs: [changes]
-    runs-on: ubuntu-latest
-    steps:
-      # - uses: actions/checkout@v3
-      #   with:
-      #     fetch-depth: 2
-
-      - run: echo ${{ fromJSON(needs.changes.outputs.changes) }}
       - run: echo ${{ needs.changes.outputs.changes }}
-      # - run: echo ${{ needs.changes.outputs.changed_count }}
-      # - run: echo ${{ needs.changes.outputs.changed_files }}
-
-  # bar:
-  #   needs: [changes]
-  #   runs-on: ubuntu-latest
-  #   if: ${{ needs.changes.outputs.changed == 'true' }}
-  #   steps:
-  #     - run: for i in ${{ needs.changes.outputs.changed_files }}; do echo $i | awk ; done
