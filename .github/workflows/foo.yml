@@ -9,29 +9,35 @@ on:
     branches:
       - main
 
-# permissions:
-#   contents: write
-#   id-token: write
-#   packages: read
-#   pull-requests: read
+permissions:
+  pull-requests: read
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          list-files: json
+          filters: |
+            changed:
+              - '**/*.*'
+
   foo:
+    needs: [changes]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
-      - run: echo "github.head_ref=(${{ github.head_ref }})"
-      - run: echo "github.base_ref=(${{ github.base_ref }})"
-      - run: echo "github.ref=(${{ github.ref }})"
-      - run: echo "GITHUB_REF_NAME=($GITHUB_REF_NAME)"
-      - run: echo "github.ref_name=(${{ github.ref_name }})"
-      - run: echo "github.event.action=(${{ github.event.action }})"
-      - run: echo "github.event=(${{ github.event }})"
-      - run: echo "github.event.repository.default_branch=(${{ github.event.repository.default_branch }})"
-      - run: git branch -a
-      - run: git diff --name-status remotes/origin/main...remotes/origin/test/branch-2
-      - run: git diff --name-status origin/main origin/${GITHUB_HEAD_REF}
+      - run: echo ${{ needs.changes.outputs.changed }}
+      - run: echo ${{ needs.changes.outputs.changed_count }}
+      - run: echo ${{ needs.changes.outputs.changed_files }}
+
 
