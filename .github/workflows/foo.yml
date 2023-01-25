@@ -20,10 +20,6 @@ jobs:
       changed_files: ${{ steps.changes.outputs.changed_files }}
       changed_count: ${{ steps.changes.outputs.changed_count }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 20
-
       - uses: dorny/paths-filter@v2
         id: changes
         with:
@@ -36,8 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - id: foo
-      uses: willbamford/monorepo-changed@v1
+      with:
+        fetch-depth: 20
+    - uses: willbamford/monorepo-changed@v2
       with:
         who-to-greet: 'Mona the Octocat'
     - run: echo random-number ${{ steps.foo.outputs.random-number }}
